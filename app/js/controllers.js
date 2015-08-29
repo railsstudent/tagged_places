@@ -3,11 +3,31 @@
 /* Controllers */
 
 angular.module('myApp.controllers', [])
-  .controller('MyCtrl1', ['$scope', function($scope) {
+  .controller('MyCtrl1', ['$scope', '$http', function($scope, $http) {
 
-	// http://stackoverflow.com/questions/25627683/error-compilenonassign-expression-undefined-used-with-directive-myfacebo
-  	//$scope.username = '';
-  	//$scope.myTaggedPlaces = [];
-  	console.log('username - ' + $scope.username); 
-  	console.log('places - ' + $scope.myTaggedPlaces); 
+  	$scope.loadNextPage = function _loadNextPage() {
+  		$http.get($scope.next).then(function(response) {
+  			var data = response.data;
+  			$scope.myTaggedPlaces = data.data;
+  			$scope.previous = data.paging.previous;
+  			$scope.next = data.paging.next;
+  		}, function(response) {
+  			$scope.myTaggedPlaces = [];
+  			$scope.previous = undefined;
+  			$scope.next = undefined;
+  		});
+  	};
+
+  	$scope.loadPrevPage = function _loadPrevPage() {
+  		$http.get($scope.previous).then(function(response) {
+  			var data = response.data;
+  			$scope.myTaggedPlaces = data.data;
+  			$scope.previous = data.paging.previous;
+  			$scope.next = data.paging.next;
+  		}, function(response) {
+  			$scope.myTaggedPlaces = [];
+  			$scope.previous = undefined;
+  			$scope.next = undefined;
+  		});
+  	};
   }]);

@@ -52,15 +52,17 @@ angular.module('myApp.directives', []).
 	          FB.getLoginStatus(function(response) {
 	            console.log('getLoginStatus - ' + response);
 	            if (response.status === 'connected') {
+	            	scope.logged = true;
            			scope.loadMyInfo();
            			console.log('load my info');
 	            } else {
-	            	FB.login(function(response){
+	            	/*FB.login(function(response){
 	            		console.log(response);
 	            		if (response.status === 'connected') {
 	            			scope.loadMyInfo();
 	            		}
-	            	}, {scope: scope.permissions});
+	            	}, {scope: scope.permissions});*/
+	          		scope.logged = false;
 	            }
 	          });
 	      	};
@@ -74,6 +76,8 @@ angular.module('myApp.directives', []).
   						$scope.previous = response.paging.previous;
   						console.log('number of tagged places - ' + 
   							$scope.places.length);
+  						console.log('previous - ' + $scope.previous);
+  						console.log('next - ' + $scope.next);
   					});
   				});
   			};
@@ -84,11 +88,21 @@ angular.module('myApp.directives', []).
 	            		$scope.username = meResponse.name;
 	            		console.log('meResponse.name - ' + meResponse.name);
 	            		console.log('scope.username  - ' + $scope.username );
+	    		        $scope.logged = true;
 	    		        $scope.loadTaggedPlaces();
 	            	});
 	            });
   			};
+
+  			$scope.myLogin = function _myLogin() {
+	            FB.login(function(response){
+	            	console.log(response);
+	            	if (response.status === 'connected') {
+	            		$scope.loadMyInfo();
+	            	}
+	            }, {scope: $scope.permissions});
+  			};
   		},
-  		template: 'Welcome {{username}}'
+  		templateUrl : 'partials/greeting.html'
   	};
   }]);

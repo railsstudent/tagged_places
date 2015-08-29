@@ -1,0 +1,8 @@
+<div class='text-right' my-facebook permissions='user_tagged_places' places='myTaggedPlaces' /></div>
+<h1> My Tagged Places</h1>
+<table class="table table-striped">
+<div ng-repeat="taggedPlace in myTaggedPlaces">
+  {{$index+1}} - {{taggedPlace.place.name}},{{taggedPlace.place.location.street}},
+  {{taggedPlace.place.location.city}},{{taggedPlace.place.location.country}}
+</div>
+</table>

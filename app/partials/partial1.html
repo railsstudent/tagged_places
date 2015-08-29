@@ -1,8 +1,27 @@
-<div class='text-right' my-facebook permissions='user_tagged_places' places='myTaggedPlaces' /></div>
+<div class='text-right' my-facebook permissions='user_tagged_places' places='myTaggedPlaces' previous="previous" next="next" /></div>
 <h1> My Tagged Places</h1>
 <table class="table table-striped">
-<div ng-repeat="taggedPlace in myTaggedPlaces">
-  {{$index+1}} - {{taggedPlace.place.name}},{{taggedPlace.place.location.street}},
-  {{taggedPlace.place.location.city}},{{taggedPlace.place.location.country}}
-</div>
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Created Time</th>
+			<th>Name</th>
+			<th>Street</th>
+			<th>City</th>
+			<th>Country</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="taggedPlace in myTaggedPlaces">
+			<td>{{$index + 1}}</td>
+			<td>{{taggedPlace.created_time | date : 'yyyy-MMM-dd hh:mm:ss a (EEE)'}}</td>
+			<td>{{taggedPlace.place.name}}</td>
+			<td>{{taggedPlace.place.location.street}}</td>
+			<td>{{taggedPlace.place.location.city}}</td>
+			<td>{{taggedPlace.place.location.country}}</td>
+  		</tr>
+	</tbody>
+</table>
+<a href="{{previous}}" ng-show="previous" class="pull-left">Previous</a>
+<a href="{{next}}" ng-show="next" class="pull-right">Next</a>
 </table>

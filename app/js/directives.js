@@ -15,7 +15,9 @@ angular.module('myApp.directives', []).
   		restrict: 'A',
   		scope: {
   			permissions: '@',
-  			places: '='
+  			places: '=',
+  			previous: '=',
+  			next: '='
 		},
   		link: function _link(scope, element, attributes) {
 
@@ -64,10 +66,12 @@ angular.module('myApp.directives', []).
 	      	};
   		},
   		controller: function _controller($scope) {
-  			$scope.loadFriends = function _loadFriends() {
+  			$scope.loadTaggedPlaces = function _loadFriends() {
   				FB.api('/me/tagged_places', function(response) {
   					$scope.$apply(function() {
   						$scope.places = response.data;
+  						$scope.next = response.paging.next;
+  						$scope.previous = response.paging.previous;
   						console.log('number of tagged places - ' + 
   							$scope.places.length);
   					});
@@ -80,7 +84,7 @@ angular.module('myApp.directives', []).
 	            		$scope.username = meResponse.name;
 	            		console.log('meResponse.name - ' + meResponse.name);
 	            		console.log('scope.username  - ' + $scope.username );
-	    		        $scope.loadFriends();
+	    		        $scope.loadTaggedPlaces();
 	            	});
 	            });
   			};
